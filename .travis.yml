@@ -3,21 +3,21 @@ services:
     - docker
     
 before install:
-     - docker build -t nimarty/react-test -f ./client/Dockerfile.dev ./client
+     - docker build -t nikitamartynov/react-test -f ./client/Dockerfile.dev ./client
      
 script:
-    - docker run -e CI=true nimarty/react-test npm test
+    - docker run -e CI=true nikitamartynov/react-test npm test
     
 after_success:
-    - docker build -t nimarty/multi-client ./client
-    - docker build -t nimarty/multi-nginx ./nginx
-    - docker build -t nimarty/multi-server ./server
-    - docker build -t nimarty/multi-worker ./worker
+    - docker build -t nikitamartynov/multi-client ./client
+    - docker build -t nikitamartynov/multi-nginx ./nginx
+    - docker build -t nikitamartynov/multi-server ./server
+    - docker build -t nikitamartynov/multi-worker ./worker
     # Log in to the docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # Take those images and push'em to docker hub
-    - docker push nimarty/multi-client
-    - docker push nimarty/multi-nginx
-    - docker push nimarty/multi-server
-    - docker push nimarty/multi-worker
+    - docker push nikitamartynov/multi-client
+    - docker push nikitamartynov/multi-nginx
+    - docker push nikitamartynov/multi-server
+    - docker push nikitamartynov/multi-worker
     

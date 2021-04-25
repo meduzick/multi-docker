@@ -6,7 +6,7 @@ before install:
      - docker build -t nimarty/react-test -f ./client/Dockerfile.dev ./client
      
 script:
-    - docker run nimarty/react-test npm test -- --coverage
+    - docker run -e CI=true nimarty/react-test npm test
     
 after_success:
     - docker build -t nimarty/multi-client ./client

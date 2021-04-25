@@ -1,0 +1,23 @@
+sudo: required
+services:
+    - docker
+    
+before install:
+     - docker build -t nimarty/react-test -f ./client/Dockerfile.dev ./client
+     
+script:
+    - docker run nimarty/react-test npm test -- --coverage
+    
+after_success:
+    - docker build -t nimarty/multi-client ./client
+    - docker build -t nimarty/multi-nginx ./nginx
+    - docker build -t nimarty/multi-server ./server
+    - docker build -t nimarty/multi-worker ./worker
+    # Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push'em to docker hub
+    - docker push nimarty/multi-client
+    - docker push nimarty/multi-nginx
+    - docker push nimarty/multi-server
+    - docker push nimarty/multi-worker
+    
